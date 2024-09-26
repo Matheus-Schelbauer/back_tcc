@@ -1,5 +1,8 @@
 package br.com.proxinvest.proxinvest.DTO;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import br.com.proxinvest.proxinvest.model.User;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -11,5 +14,8 @@ public class WalletDTO {
     private String description;
     private Double walletValue;
     //fazer o hackzinho hehe, para puxar o objeto user hehe
+    @JsonIgnore
+    private UserDTO user;
+    // para de ser BURRO, meu
 
 }

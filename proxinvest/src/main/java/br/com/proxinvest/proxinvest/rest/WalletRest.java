@@ -26,8 +26,8 @@ public class WalletRest {
     private ModelMapper mapper;
         @GetMapping(value = "/wallet/{id}", produces = "application/json;charset=UTF-8")
             public List<WalletDTO> getById(@PathVariable("id") Integer id){
-        // List<Wallet> wallets = repo.findByUser_id(id);
-        List<Wallet> wallets = repo.findAll();
+        List<Wallet> wallets = repo.findByUser_id(id);
+        // List<Wallet> wallets = repo.findAll();
 
         if (wallets != null){
             return wallets.stream().map(e -> mapper.map(e,WalletDTO.class)).collect(Collectors.toList());
