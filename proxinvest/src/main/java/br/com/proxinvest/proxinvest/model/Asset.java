@@ -1,8 +1,5 @@
 package br.com.proxinvest.proxinvest.model;
 
-import java.util.List;
-
-import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.Column;
@@ -18,33 +15,35 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Entity
-@Table(name = "wallet")
+@Table(name = "asset_wallet")
 @Getter
 @Setter
-public class Wallet {
+public class Asset {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="id")
+    @Column(name = "id")
     private int id;
 
-    @Column(name="name")
-    private String name;
+    @Column(name="ticket_code")
+    private String ticketCode;
 
-    @Column(name="description")
-    private String description;
+    @Column(name="quantity")
+    private Double quantity;
 
-    @Column(name="wallet_value")
-    private Double walletValue;
+    @Column(name="unitary_value")
+    private Double unitaryValue;
 
-    //Como chamar as carteiras de apenas o usuário selecionado pelo id
-    //birectional relationship
+    @Column(name="total_value")
+    private Double totalValue;
+
+    //terá que fazer a conexão com as carteiras e o ativo original
     @ManyToOne
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "wallet_id")
     @JsonIgnore
-    private User user;
+    private Wallet wallet;
+  
+    @Column(name="asset_original_id")
+    private int assetOriginalId;
 
-    //birectional relationship
-    @OneToMany(mappedBy = "wallet")
-    private List<Asset> assets;
 
 }

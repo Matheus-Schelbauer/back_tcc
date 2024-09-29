@@ -13,7 +13,7 @@ public class WalletDTO {
     private String name;
     private String description;
     private Double walletValue;
-    //fazer o hackzinho hehe, para puxar o objeto user hehe
+    //fazer o hackzinho para puxar o objeto user 
     @JsonIgnore
     private UserDTO user;
     // para de ser BURRO, meu
