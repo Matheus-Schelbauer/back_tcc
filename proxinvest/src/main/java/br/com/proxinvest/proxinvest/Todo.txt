@@ -1,0 +1,5 @@
+Checar a listagem de todas as classes nos arquivos REST.
+Checar a birectional relationship da wallet e asset.
+Criar a interação com o front -> difícl
+
+Checar o signup, está criando dado no DB, mas não limpa o atual

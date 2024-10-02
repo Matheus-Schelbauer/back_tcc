@@ -13,6 +13,8 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
+// Fazer a conexão com o Asset Original
+
 
 @Entity
 @Table(name = "asset_wallet")
@@ -41,7 +43,8 @@ public class Asset {
     @JoinColumn(name = "wallet_id")
     @JsonIgnore
     private Wallet wallet;
-  
+    
+    // Fazer a conexão com o Asset Original
     @Column(name="asset_original_id")
     private int assetOriginalId;
 
