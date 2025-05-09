@@ -13,9 +13,9 @@ public class WalletDTO {
     private String name;
     private String description;
     private Double walletValue;
-    //fazer o hackzinho para puxar o objeto user 
+    //fazer o hackzinho para puxar o objeto 
     @JsonIgnore
     private UserDTO user;
-    // para de ser BURRO, meu
+    // para de ser BURRO, meu 
 
 }
