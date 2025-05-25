@@ -45,7 +45,9 @@ public class WalletRest {
     }
 
     @PostMapping(value = "/users/{userId}/wallets", produces = "application/json;charset=UTF-8")
-    public WalletDTO inserir(@PathVariable Integer userId, @RequestBody WalletDTO wallet) {
+    public WalletDTO inserir(
+        @PathVariable Integer userId,
+        @RequestBody WalletDTO wallet) {
         // salva a Entidade convertida do DTO
         Wallet w = mapper.map(wallet, Wallet.class);
 
@@ -60,7 +62,7 @@ public class WalletRest {
         // retorna o DTO equivalente à entidade
         return mapper.map(w, WalletDTO.class);
     }
-    
+
     @DeleteMapping(value = "/users/{userId}/wallets/{walletId}")
     public ResponseEntity<Void> deleteWallet(
             @PathVariable Integer userId,
@@ -114,5 +116,7 @@ public class WalletRest {
         WalletDTO result = mapper.map(wallet, WalletDTO.class);
         return ResponseEntity.ok(result); // 200 OK
     }
+
+    
 
 }
