@@ -16,7 +16,7 @@ public class AssetDTO {
     private int assetOriginalId;
 
     //fazer o hackzinho para puxar o objeto user talvez alterar para que similarmente fique a chamada da Wallet com base no user
-    // @JsonIgnore SEU LIXO
+    // @JsonIgnore 
     // private WalletDTO wallet;
 
 }

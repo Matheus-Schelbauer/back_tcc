@@ -98,7 +98,6 @@ public class AssetRest {
                 existingAsset.setQuantity(assetDTO.getQuantity());
                 existingAsset.setUnitaryValue(assetDTO.getUnitaryValue());
                 existingAsset.setTotalValue(assetDTO.getTotalValue());
-                existingAsset.setAssetOriginalId(assetDTO.getAssetOriginalId());
 
                 // Salva as mudanças
                 repo.save(existingAsset);

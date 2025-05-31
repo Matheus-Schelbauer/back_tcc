@@ -15,7 +15,6 @@ import lombok.Getter;
 import lombok.Setter;
 // Fazer a conexão com o Asset Original
 
-
 @Entity
 @Table(name = "asset_wallet")
 @Getter
@@ -26,27 +25,27 @@ public class Asset {
     @Column(name = "id")
     private int id;
 
-    @Column(name="ticket_code")
+    @Column(name = "ticket_code")
     private String ticketCode;
 
-    @Column(name="quantity")
+    @Column(name = "quantity")
     private Double quantity;
 
-    @Column(name="unitary_value")
+    @Column(name = "unitary_value")
     private Double unitaryValue;
 
-    @Column(name="total_value")
+    @Column(name = "total_value")
     private Double totalValue;
 
-    //terá que fazer a conexão com as carteiras e o ativo original
+    // terá que fazer a conexão com as carteiras e o ativo original
     @ManyToOne
     @JoinColumn(name = "wallet_id")
     @JsonIgnore
     private Wallet wallet;
-    
-    // Fazer a conexão com o Asset Original
-    @Column(name="asset_original_id")
-    private int assetOriginalId;
 
+    // Fazer a conexão com o Asset Original
+    @ManyToOne
+    @JoinColumn(name = "asset_original_id")
+    private AssetOriginal assetOriginal;
 
 }
