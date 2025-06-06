@@ -11,11 +11,11 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/market/assets-original")
-public class AssetOriginalController {
+public class AssetOriginalRest {
 
     private final AssetOriginalRepository assetOriginalRepository;
 
-    public AssetOriginalController(AssetOriginalRepository assetOriginalRepository) {
+    public AssetOriginalRest(AssetOriginalRepository assetOriginalRepository) {
         this.assetOriginalRepository = assetOriginalRepository;
     }
 

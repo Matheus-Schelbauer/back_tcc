@@ -1,5 +1,6 @@
 package br.com.proxinvest.proxinvest.model;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -26,7 +27,7 @@ public class AssetOriginal {
     private int id;
     
     @Column(name="unitary_value")
-    private Double unitaryValue;
+    private BigDecimal unitaryValue;
 
     @Column(name="ticket_code")
     private String ticketCode;

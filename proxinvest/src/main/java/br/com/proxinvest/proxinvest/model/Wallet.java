@@ -1,5 +1,6 @@
 package br.com.proxinvest.proxinvest.model;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonAlias;
@@ -24,26 +25,26 @@ import lombok.Setter;
 public class Wallet {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="id")
+    @Column(name = "id")
     private int id;
 
-    @Column(name="name")
+    @Column(name = "name")
     private String name;
 
-    @Column(name="description")
+    @Column(name = "description")
     private String description;
 
-    @Column(name="wallet_value")
-    private Double walletValue;
+    @Column(name = "wallet_value", precision = 19, scale = 2)
+    private BigDecimal walletValue;
 
-    //Como chamar as carteiras de apenas o usuário selecionado pelo id
-    //birectional relationship
+    // Como chamar as carteiras de apenas o usuário selecionado pelo id
+    // birectional relationship
     @ManyToOne
     @JoinColumn(name = "user_id")
     @JsonIgnore
     private User user;
 
-    //birectional relationship
+    // birectional relationship
     @OneToMany(mappedBy = "wallet")
     private List<Asset> assets;
 

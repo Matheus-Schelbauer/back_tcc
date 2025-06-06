@@ -1,5 +1,7 @@
 package br.com.proxinvest.proxinvest.DTO;
 
+import java.math.BigDecimal;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
@@ -8,8 +10,10 @@ import lombok.Setter;
 @Setter //cria setters para todos os var
 public class AssetOriginalDTO {
     private int id;
-    private Double unitaryValue;
+    private BigDecimal unitaryValue;
     private String ticketCode;
     private String name;
+
+    
 
 }

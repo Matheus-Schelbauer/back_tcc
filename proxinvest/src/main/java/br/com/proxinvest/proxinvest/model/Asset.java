@@ -1,5 +1,7 @@
 package br.com.proxinvest.proxinvest.model;
 
+import java.math.BigDecimal;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.Column;
@@ -33,10 +35,10 @@ public class Asset {
     private Double quantity;
 
     @Column(name = "unitary_value")
-    private Double unitaryValue;
+    private BigDecimal unitaryValue;
 
     @Column(name = "total_value")
-    private Double totalValue;
+    private BigDecimal totalValue;
 
     // terá que fazer a conexão com as carteiras e o ativo original
     @ManyToOne
@@ -46,6 +48,6 @@ public class Asset {
 
     // Fazer a conexão com o Asset Original
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "asset_original_id")
+    @JoinColumn(name = "ticket_code", referencedColumnName = "ticket_code", insertable = false, updatable = false)
     private AssetOriginal assetOriginal;
 }
