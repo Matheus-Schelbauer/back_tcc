@@ -12,6 +12,7 @@ import br.com.proxinvest.proxinvest.model.Wallet;
 import br.com.proxinvest.proxinvest.repository.AssetOriginalRepository;
 import br.com.proxinvest.proxinvest.repository.AssetRepository;
 import br.com.proxinvest.proxinvest.repository.WalletRepository;
+import br.com.proxinvest.proxinvest.services.WalletService;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -43,6 +44,9 @@ public class AssetRest {
 
     @Autowired
     private WalletRepository walletRepository;
+
+    @Autowired
+    private WalletService walletService;
 
     @GetMapping(value = "/users/{userId}/wallets/{walletId}/assets", produces = "application/json;charset=UTF-8")
     public List<AssetDTO> getAssetsByWallet(
@@ -109,37 +113,39 @@ public class AssetRest {
         Optional<AssetOriginal> optionalAssetOriginal = assetOriginalRepository
                 .findByTicketCode(assetDTO.getTicketCode());
         if (optionalAssetOriginal.isEmpty()) {
-            // Se não encontrou o ativo original, retorna erro 400
-            return ResponseEntity.badRequest().body(null);
+            return ResponseEntity.badRequest().body(null); // 400 se não encontrar o ativo original
         }
         AssetOriginal assetOriginal = optionalAssetOriginal.get();
 
-        // Busca a Wallet pelo id (supondo que tenha WalletRepository)
+        // Busca a Wallet pelo ID
         Optional<Wallet> optionalWallet = walletRepository.findById(walletId);
         if (optionalWallet.isEmpty()) {
-            return ResponseEntity.badRequest().body(null);
+            return ResponseEntity.badRequest().body(null); // 400 se não encontrar a carteira
         }
         Wallet wallet = optionalWallet.get();
 
-        // Converte DTO para Entity
+        // Converte DTO para entidade Asset
         Asset asset = mapper.map(assetDTO, Asset.class);
 
-        // Set as associações necessárias
+        // Define associações
         asset.setAssetOriginal(assetOriginal);
         asset.setWallet(wallet);
 
-        // Define o valor unitário com base no AssetOriginal
+        // Define valor unitário com base no AssetOriginal
         asset.setUnitaryValue(assetOriginal.getUnitaryValue());
 
-        // Calcula o valor total (unitário * quantidade)
+        // Calcula valor total (unitário * quantidade)
         if (asset.getQuantity() != null && asset.getUnitaryValue() != null) {
             asset.setTotalValue(asset.getUnitaryValue().multiply(BigDecimal.valueOf(asset.getQuantity())));
         }
 
-        // Salva no banco
+        // Salva o asset no banco
         repo.save(asset);
 
-        // Retorna o DTO atualizado (com id gerado)
+        // ✅ Atualiza o valor da carteira após adicionar o asset
+        walletService.atualizarValorDaWallet(walletId);
+
+        // Retorna o DTO atualizado com ID gerado
         AssetDTO responseDTO = mapper.map(asset, AssetDTO.class);
         return ResponseEntity.ok(responseDTO);
     }
@@ -152,7 +158,16 @@ public class AssetRest {
 
         // Verifica se existe e se pertence ao usuário certo
         if (optionalAsset.isPresent()) {
+            Asset asset = optionalAsset.get();
+
+            // Salva o ID da carteira antes de deletar
+            Integer walletId = asset.getWallet().getId();
+
             repo.deleteById(assetId);
+
+            // Atualiza o valor total da carteira depois de deletar o asset
+            walletService.atualizarValorDaWallet(walletId);
+
             return ResponseEntity.noContent().build(); // 204 No Content
         }
 
@@ -184,6 +199,9 @@ public class AssetRest {
                 // Salva as mudanças
                 repo.save(existingAsset);
 
+                // Salva a wallet
+                walletService.atualizarValorDaWallet(walletId);
+
                 // Retorna o DTO atualizado
                 AssetDTO updatedDTO = mapper.map(existingAsset, AssetDTO.class);
                 return ResponseEntity.ok(updatedDTO);
@@ -192,6 +210,5 @@ public class AssetRest {
 
         return ResponseEntity.notFound().build(); // 404 se não encontrar ou não pertencer à wallet
     }
-    
 
 }
