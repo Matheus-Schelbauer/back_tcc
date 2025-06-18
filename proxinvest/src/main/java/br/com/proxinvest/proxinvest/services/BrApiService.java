@@ -63,14 +63,19 @@ public class BrApiService {
                 double preco = item.optDouble("close", 0.0);
                 BigDecimal precoDecimal = BigDecimal.valueOf(preco);
 
-                System.out.println("Ação: " + codigo + " | Nome: " + nome + " | Preço: " + preco);
+                String codigoFiltrado = codigo;
+                if (codigo.length() > 4) {
+                    codigoFiltrado = codigo.substring(0, 5);
+                }
 
-                repo.findByTicketCode(codigo).ifPresentOrElse(cotacao -> {
+                System.out.println("Ação: " + codigoFiltrado + " | Nome: " + nome + " | Preço: " + preco);
+
+                repo.findByTicketCode(codigoFiltrado).ifPresentOrElse(cotacao -> {
                     cotacao.setUnitaryValue(precoDecimal);
                     repo.save(cotacao);
-                    System.out.println("✅ Atualizado: " + codigo + " | Preço: " + precoDecimal);
+                    System.out.println("Atualizado: " + codigo + " | Preço: " + precoDecimal);
                 }, () -> {
-                    System.out.println("⚠️ Não encontrado no banco: " + codigo);
+                    System.out.println("Não encontrado no banco: " + codigo);
                 });
             }
 
